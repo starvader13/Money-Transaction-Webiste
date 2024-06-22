@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import JWT_SECRET from "../config.js";
 import doesUserExists from "../middleware/signin/doesUserExists.js";
 import isSignInInputValidated from "../middleware/signin/isInputValidated.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = Router();
 
@@ -39,6 +40,12 @@ router.post("/signin", isSignInInputValidated, doesUserExists, async (req, res)=
     return res.status(200).json({
         token: token
     });
+})
+
+router.use(authMiddleware);
+
+router.put("/", async (req, res, next)=>{
+
 })
 
 export default router;
