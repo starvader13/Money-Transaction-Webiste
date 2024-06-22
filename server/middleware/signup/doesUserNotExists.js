@@ -1,7 +1,7 @@
 import User from "../../models/user.js";
 
 const doesUserNotExists = async (req, res, next) => {
-    const {username} = req.body.username;
+    const {username} = req.body;
 
     const response = await User.findOne({username: username});
 

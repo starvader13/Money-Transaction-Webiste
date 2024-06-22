@@ -4,11 +4,11 @@ const accountSchema = new mongoose.Schema({
     userId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        require: true,
+        required: true,
     },
     balance:{
         type: Number,
-        require: true
+        required: true
     }
 }, {timestamps: true})
 

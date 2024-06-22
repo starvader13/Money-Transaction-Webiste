@@ -9,6 +9,7 @@ import doesUserExists from "../middleware/signin/doesUserExists.js";
 import isSignInInputValidated from "../middleware/signin/isInputValidated.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import isUpdateInputValidated from "../middleware/updateUser/isInputValidated.js";
+import Account from "../models/account.js";
 
 const router = Router();
 
@@ -18,13 +19,18 @@ router.post("/signup", isSignupInputValidated, doesUserNotExists, async (req, re
     const salt = bcrypt.genSaltSync(10);
     body.password = bcrypt.hashSync(body.password, salt);
 
-    const response = User.create(body);
+    const response = await User.create(body);
 
     if(!response){
         res.status(400).json({
             message: "Internal Server Error"
         });
     }
+
+    await Account.create({
+        userId: response._id,
+        balance: Math.random()*10000 + 100
+    })
 
     const token = "Bearer " + jwt.sign({userId: response._id, username: response.username}, JWT_SECRET);
 
