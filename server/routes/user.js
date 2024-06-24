@@ -68,7 +68,7 @@ router.put("/", isUpdateInputValidated, async (req, res, next)=>{
 });
 
 router.get("/bulk", async (req, res)=>{
-    const filter = req.query.filter;
+    const filter = req.query.filter || "";
 
     const response = await User.find({
         $or: [{
@@ -85,7 +85,7 @@ router.get("/bulk", async (req, res)=>{
     return res.status(200).json({
         users: response.map(res=>{
             return {
-                firstName: res.firstname,
+                firstname: res.firstname,
                 lastname: res.lastname,
                 username: res.username,
                 _id: res._id
